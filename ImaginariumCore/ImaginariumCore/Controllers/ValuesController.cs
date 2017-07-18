@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImaginariumCore.Controllers
@@ -33,6 +32,14 @@ namespace ImaginariumCore.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
+        }
+
+        [Route("myroute")]
+        [HttpGet]
+        public string Test()
+        {
+            string test = "тест хуест";
+            return test;
         }
 
         // DELETE api/values/5
