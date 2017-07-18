@@ -3,7 +3,7 @@ using Domain.Entities;
 
 namespace Domain.Interfaces
 {
-    interface ILobbyManager
+    public interface ILobbyManager
     {
         Guid AddPlayer(string playerId, GameType type, int size);
     }
