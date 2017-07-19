@@ -27,14 +27,6 @@ namespace DomainTests
             Assert.IsFalse(lobbyIdWithNewSizeAndGameTypeIsUsual.Equals(lobbyIdForCustomGame) && 
                 lobbyIdWithNewSizeAndGameTypeIsUsual.Equals(newLobbyId) && 
                 lobbyIdWithNewSizeAndGameTypeIsUsual.Equals(lobbyId));
-            try
-            {
-                lobbyManager.AddPlayer("8", GameType.Usual, 10);
-            }
-            catch (ArgumentException e)
-            {
-                Assert.IsTrue(e.Message == "size values can be 4,5,6 only");
-            }
         }
     }
 }

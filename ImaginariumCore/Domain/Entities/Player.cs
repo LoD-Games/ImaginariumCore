@@ -2,11 +2,11 @@
 {
     public class Player
     {
-        private string Id { get; }
+        public string Token { get; }
 
-        public Player(string id)
+        public Player(string token)
         {
-            Id = id;
+            Token = token;
         }
     }
 }

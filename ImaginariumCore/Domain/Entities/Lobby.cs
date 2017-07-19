@@ -7,25 +7,28 @@ namespace Domain.Entities
     public class Lobby : ILobby
     {
         private IList<Player> _players;
+
         public Lobby(int size, GameType type)
         {
             Size = size;
             GameType = type;
-            Id = Guid.NewGuid();
+            Token = Guid.NewGuid();
             _players = new List<Player>(size);
         }
 
-        public void Add(string playerId)
+        public void Add(string playerToken)
         {
             if (HasPlaces)
             {
-                _players.Add(new Player(playerId));
+                _players.Add(new Player(playerToken));
             }
         }
 
         public int Size { get; }
         public GameType GameType { get; set; }
         public bool HasPlaces => Size - _players.Count > 0;
-        public Guid Id { get; }
+        public Guid Token { get; }
+
+        public IList<Player> Players => _players;
     }
 }

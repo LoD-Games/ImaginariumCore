@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Domain.Entities;
+using Domain.Interfaces;
+using ImaginariumCore.Contracts;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +28,8 @@ namespace ImaginariumCore
         {
             // Add framework services.
             services.AddMvc();
+            services.AddSingleton<ILobbyManager,LobbyManager>();
+            services.AddSingleton<ContractMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
