@@ -30,6 +30,7 @@ namespace ImaginariumCore
             services.AddMvc();
             services.AddSingleton<ILobbyManager,LobbyManager>();
             services.AddSingleton<ContractMapper>();
+            services.AddSingleton<DeckSettings>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

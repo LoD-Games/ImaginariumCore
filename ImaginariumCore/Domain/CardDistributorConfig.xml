@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<CardDistributor>
+  <players count="4">96</players>
+  <players count="5">75</players>
+  <players count="6">72</players>
+  <players count="7">98</players>
+</CardDistributor>

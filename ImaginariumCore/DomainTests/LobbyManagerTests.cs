@@ -11,6 +11,7 @@ namespace DomainTests
         [TestMethod]
         public void AddPlayerToLobbyFromManager()
         {
+            DeckSettings deckSettings = new DeckSettings();
             ILobbyManager lobbyManager = new LobbyManager();
             var lobbyId = Guid.Empty;
             lobbyId = lobbyManager.AddPlayer("0", GameType.Usual, 4);

@@ -10,6 +10,7 @@ namespace DomainTests
         [TestMethod]
         public void AddPlayerToLobby()
         {
+            DeckSettings deckSettings = new DeckSettings();
             ILobby lobby = new Lobby(4, GameType.Usual);
             for (int i = 0; i < lobby.Size; i++)
             {

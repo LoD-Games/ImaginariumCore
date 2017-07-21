@@ -1,19 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Domain.Entities;
+using ImaginariumCore.Contracts.Output;
 
 namespace ImaginariumCore.Contracts
 {
     public class ContractMapper
     {
-        public IList<string> ToUpdate(IEnumerable<Player> players)
+        public UpdatedLobby ToUpdate(IEnumerable<Player> players)
         {
-            IList<string> result  = new List<string>();
+            IList<string> tokens  = new List<string>();
             foreach (var player in players)
             {
-                result.Add(player.Token);
+                tokens.Add(player.Token);
             }
-            return result;
-        } 
+            return new UpdatedLobby(){Players = tokens};
+        }
+
+        public LobbyTokenValueObject WrapToken(Guid lobbyToken)
+        {
+            return new LobbyTokenValueObject(lobbyToken);
+        }
     }
 }
