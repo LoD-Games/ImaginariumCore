@@ -6,11 +6,12 @@ namespace Domain.Interfaces
 {
     public interface ILobby
     {
-        void Add(string playerToken);
+        void Add(string playerToken , string nickName = "default");
         int Size { get; }
         GameType GameType { get; set; }
         bool HasPlaces { get; }
         Guid Token { get; }
         IList<Player> Players { get; }
+        int Stage { get; }
     }
 }

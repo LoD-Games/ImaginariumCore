@@ -8,9 +8,12 @@ namespace Domain.Entities
 
         public IList<int> Cards { get; }
 
-        public Player(string token)
+        public string NickName { get; }
+
+        public Player(string token, string nickName = "default")
         {
             Token = token;
+            NickName = nickName;
             Cards = new List<int>();
         }
     }

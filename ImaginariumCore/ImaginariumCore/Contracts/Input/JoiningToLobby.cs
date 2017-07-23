@@ -12,7 +12,9 @@ namespace ImaginariumCore.Contracts.Input
 
         public string PlayerToken { get; set; }
 
-        public JoiningToLobby(GameType gameType, int size, string playerToken)
+        public string NickName { get; set; }
+
+        public JoiningToLobby(GameType gameType, int size, string playerToken , string nickName = "default")
         {
             if (!gameType.Equals(GameType.Usual) &&
                  !gameType.Equals(GameType.Custom) &&
@@ -23,6 +25,7 @@ namespace ImaginariumCore.Contracts.Input
             GameType = gameType;
             Size = size;
             PlayerToken = playerToken;
+            NickName = nickName;
         }
     }
 }

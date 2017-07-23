@@ -6,7 +6,8 @@ namespace Domain.Interfaces
 {
     public interface ILobbyManager
     {
-        Guid AddPlayer(string playerToken, GameType type, int size);
+        Guid AddPlayer(string playerToken, GameType type, int size,string nickName);
         IList<Player> UpdateLobby(Guid lobbyToken);
+        IList<ILobby> GetAll();
     }
 }

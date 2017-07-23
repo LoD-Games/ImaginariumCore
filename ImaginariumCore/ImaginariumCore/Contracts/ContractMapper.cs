@@ -10,12 +10,12 @@ namespace ImaginariumCore.Contracts
     {
         public UpdatedLobby ToUpdate(IEnumerable<Player> players)
         {
-            IList<string> tokens  = new List<string>();
+            IList<TokenAndNickName> tokensAndNickNames  = new List<TokenAndNickName>();
             foreach (var player in players)
             {
-                tokens.Add(player.Token);
+                tokensAndNickNames.Add(new TokenAndNickName(player.Token , player.NickName));
             }
-            return new UpdatedLobby(){Players = tokens};
+            return new UpdatedLobby(tokensAndNickNames);
         }
 
         public LobbyTokenValueObject WrapToken(Guid lobbyToken)

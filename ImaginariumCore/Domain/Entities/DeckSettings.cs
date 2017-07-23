@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 
@@ -11,8 +12,15 @@ namespace Domain.Entities
         public DeckSettings()
         {
             SizeToCount = new Dictionary<int, int>();
-            XmlReader reader = XmlReader.
-                Create(@"C:\Csharp\ImaginariumCore\ImaginariumCore\ImaginariumCore\Domain\CardDistributorConfig.xml");//
+            var localPath =
+                @"C:\Csharp\ImaginariumCore\ImaginariumCore\ImaginariumCore\Domain\CardDistributorConfig.xml";
+            var configPath = localPath;
+            var azurePath = @"CardDistributorConfig.xml";
+            if (!File.Exists(localPath))
+            {
+                configPath = azurePath;
+            }
+            XmlReader reader = XmlReader.Create(configPath);// 
             while (reader.Read())
             {
                 switch (reader.Name)

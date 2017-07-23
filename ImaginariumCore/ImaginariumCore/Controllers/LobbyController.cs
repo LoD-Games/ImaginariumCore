@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Domain.Interfaces;
 using ImaginariumCore.Contracts;
 using ImaginariumCore.Contracts.Input;
@@ -25,14 +24,23 @@ namespace ImaginariumCore.Controllers
         [HttpPut]
         public LobbyTokenValueObject JoinToLobby([FromBody] JoiningToLobby joiningToLobby)
         {
-            return _contractMapper.WrapToken(_lobbyManager.AddPlayer(joiningToLobby.PlayerToken,joiningToLobby.GameType,joiningToLobby.Size));
+            return _contractMapper.WrapToken(
+                _lobbyManager.AddPlayer(joiningToLobby.PlayerToken,
+                joiningToLobby.GameType,joiningToLobby.Size,joiningToLobby.NickName));
         }
 
         [Route("update")]
         [HttpPut]
-        public UpdatedLobby UpdateLobby([FromBody] Guid lobbyToken)
+        public UpdatedLobby UpdateLobby([FromBody] LobbyTokenValueObject lobbyToken)
         {
-            return _contractMapper.ToUpdate(_lobbyManager.UpdateLobby(lobbyToken));
+            return _contractMapper.ToUpdate(_lobbyManager.UpdateLobby(lobbyToken.LobbyToken));
+        }
+
+        [Route("all")]
+        [HttpGet]
+        public IList<ILobby> GetAll()
+        {
+            return _lobbyManager.GetAll();
         }
 
     }
