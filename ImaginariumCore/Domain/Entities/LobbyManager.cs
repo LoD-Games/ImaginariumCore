@@ -37,5 +37,10 @@ namespace Domain.Entities
         {
             return _lobbies.ToArray();
         }
+
+        public void ClearAll()
+        {
+            _lobbies = new ConcurrentBag<ILobby>();
+        }
     }
 }

@@ -31,6 +31,10 @@ namespace Domain.Entities
                     player.Cards.Add(_deck.GetCard());
                 }
                 _players.Add(player);
+                if (!HasPlaces)
+                {
+                    Stage++;
+                }
             }
         }
 
@@ -40,6 +44,7 @@ namespace Domain.Entities
         public Guid Token { get; }
         
         public IList<Player> Players => _players;
-        public int Stage { get; }
+        public int Stage { get; private set; }
+        public string MainPlayer => _players[_mainPlayer].Token;
     }
 }

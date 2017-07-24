@@ -10,11 +10,14 @@ namespace Domain.Entities
 
         public string NickName { get; }
 
+        public bool Ready { get; }
+
         public Player(string token, string nickName = "default")
         {
             Token = token;
             NickName = nickName;
             Cards = new List<int>();
+            Ready = false;
         }
     }
 }

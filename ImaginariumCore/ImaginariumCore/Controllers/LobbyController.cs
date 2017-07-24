@@ -36,12 +36,21 @@ namespace ImaginariumCore.Controllers
             return _contractMapper.ToUpdate(_lobbyManager.UpdateLobby(lobbyToken.LobbyToken));
         }
 
-        [Route("all")]
+        [Route("all/get")]
         [HttpGet]
         public IList<ILobby> GetAll()
         {
             return _lobbyManager.GetAll();
         }
+
+        [Route("all/clear")]
+        [HttpGet]
+        public IActionResult ClearAll()
+        {
+            _lobbyManager.ClearAll();
+            return Ok("cleared");
+        }
+
 
     }
 }

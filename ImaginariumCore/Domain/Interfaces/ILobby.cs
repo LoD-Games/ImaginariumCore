@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         Guid Token { get; }
         IList<Player> Players { get; }
         int Stage { get; }
+        string MainPlayer { get; }
     }
 }
