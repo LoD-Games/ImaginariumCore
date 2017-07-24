@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Domain.Interfaces;
 using ImaginariumCore.Contracts;
 using ImaginariumCore.Contracts.Input;
 using ImaginariumCore.Contracts.Output;
+using ImaginariumCore.Contracts.Output.Stages;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -49,6 +51,13 @@ namespace ImaginariumCore.Controllers
         {
             _lobbyManager.ClearAll();
             return Ok("cleared");
+        }
+
+        [Route("stage")]
+        [HttpPut]
+        public IWrapper GetLobbyData([FromBody] Tokens tokens)
+        {
+            return _contractMapper.MapToStageData(tokens.PlayerToken,_lobbyManager.GetLobby(tokens.LobbyToken));
         }
 
 

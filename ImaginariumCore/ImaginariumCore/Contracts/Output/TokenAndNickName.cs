@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ImaginariumCore.Contracts.Output
+﻿namespace ImaginariumCore.Contracts.Output
 {
     public class TokenAndNickName
     {

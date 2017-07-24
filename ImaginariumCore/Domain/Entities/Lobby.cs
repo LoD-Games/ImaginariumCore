@@ -9,6 +9,7 @@ namespace Domain.Entities
         private IList<Player> _players;
         private Deck _deck;
         private int _mainPlayer;
+        private IList<Score> _scores;
 
         public Lobby(int size, GameType type)
         {
@@ -19,6 +20,7 @@ namespace Domain.Entities
             _deck = new Deck(size,DeckSettings.CountOfCards(size));
             Stage = 0;
             _mainPlayer = 0;
+            _scores = new List<Score>(size);
         }
 
         public void Add(string playerToken, string nickName)
@@ -31,6 +33,7 @@ namespace Domain.Entities
                     player.Cards.Add(_deck.GetCard());
                 }
                 _players.Add(player);
+                _scores.Add(new Score(playerToken));
                 if (!HasPlaces)
                 {
                     Stage++;
@@ -46,5 +49,6 @@ namespace Domain.Entities
         public IList<Player> Players => _players;
         public int Stage { get; private set; }
         public string MainPlayer => _players[_mainPlayer].Token;
+        public IList<Score> Scores => _scores;
     }
 }

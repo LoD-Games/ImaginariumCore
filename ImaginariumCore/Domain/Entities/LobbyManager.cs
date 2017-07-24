@@ -42,5 +42,10 @@ namespace Domain.Entities
         {
             _lobbies = new ConcurrentBag<ILobby>();
         }
+
+        public ILobby GetLobby(Guid lobbyToken)
+        {
+            return _lobbies.SingleOrDefault(lobby => lobby.Token.Equals(lobbyToken));
+        }
     }
 }

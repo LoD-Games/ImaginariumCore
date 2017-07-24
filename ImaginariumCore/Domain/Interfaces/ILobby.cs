@@ -14,5 +14,6 @@ namespace Domain.Interfaces
         IList<Player> Players { get; }
         int Stage { get; }
         string MainPlayer { get; }
+        IList<Score> Scores { get; }
     }
 }

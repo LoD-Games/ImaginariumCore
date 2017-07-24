@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Entities;
+using Domain.Interfaces;
+using ImaginariumCore.Contracts.Input;
 using ImaginariumCore.Contracts.Output;
+using ImaginariumCore.Contracts.Output.Stages;
 
 namespace ImaginariumCore.Contracts
 {
@@ -21,6 +24,23 @@ namespace ImaginariumCore.Contracts
         public LobbyTokenValueObject WrapToken(Guid lobbyToken)
         {
             return new LobbyTokenValueObject(lobbyToken);
+        }
+
+        public IWrapper MapToStageData(string playerToken, ILobby lobby)
+        {
+            IWrapper lobbyData;
+            switch (lobby.Stage)
+            {
+                case 2:lobbyData = new SecondStageData(lobby);
+                    break;
+                case 3:lobbyData = new ThirdStageData(lobby);
+                    break;
+                case 4:lobbyData = new FourthStageData(lobby);
+                    break;
+                default: lobbyData = new FirstStageData(lobby , playerToken);
+                    break;
+            }
+            return lobbyData;
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Domain.Interfaces
         IList<Player> UpdateLobby(Guid lobbyToken);
         IList<ILobby> GetAll();
         void ClearAll();
+        ILobby GetLobby(Guid lobbyToken);
     }
 }
