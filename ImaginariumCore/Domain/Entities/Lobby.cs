@@ -50,5 +50,6 @@ namespace Domain.Entities
         public int Stage { get; private set; }
         public string MainPlayer => _players[_mainPlayer].Token;
         public IList<Score> Scores => _scores;
+        public int AmountOfCards => _deck.AmountOfCards;
     }
 }

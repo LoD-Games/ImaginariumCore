@@ -9,16 +9,25 @@ namespace ImaginariumCore.Contracts.Output.Stages
     {
         public FirstStageData(ILobby lobby , string playerToken)
         {
-            Cards = lobby.Players.SingleOrDefault(player => player.Token.Equals(playerToken)).Cards;
+            DonePlayers = new List<string>();
+            var players = lobby.Players;
+            Cards = players.SingleOrDefault(player => player.Token.Equals(playerToken)).Cards;
             Scores = lobby.Scores;
             foreach (var lobbyPlayer in lobby.Players)
             {
-                
+                if (lobbyPlayer.Ready)
+                {
+                    DonePlayers.Add(lobbyPlayer.Token);
+                }
             }
+            MainPlayerToken = lobby.MainPlayer;
+            AmountOfCards = lobby.AmountOfCards;
         }
 
-        public IList<int> Cards;
-        public IList<Score> Scores;
-        public IList<string> DonePlayers;
+        public IList<int> Cards { get; set; }
+        public IList<Score> Scores { get; set; }
+        public IList<string> DonePlayers { get; set; }
+        public string MainPlayerToken { get; set; }
+        public int AmountOfCards { get; set; }
     }
 }

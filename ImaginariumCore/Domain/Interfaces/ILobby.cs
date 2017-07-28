@@ -15,5 +15,6 @@ namespace Domain.Interfaces
         int Stage { get; }
         string MainPlayer { get; }
         IList<Score> Scores { get; }
+        int AmountOfCards { get; }
     }
 }
