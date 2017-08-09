@@ -51,5 +51,11 @@ namespace Domain.Entities
         public string MainPlayer => _players[_mainPlayer].Token;
         public IList<Score> Scores => _scores;
         public int AmountOfCards => _deck.AmountOfCards;
+        public void SetCard(int card, string text, string playerToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Text { get; }
     }
 }

@@ -16,5 +16,7 @@ namespace Domain.Interfaces
         string MainPlayer { get; }
         IList<Score> Scores { get; }
         int AmountOfCards { get; }
+        void SetCard(int card, string text, string playerToken);
+        string Text { get; }
     }
 }

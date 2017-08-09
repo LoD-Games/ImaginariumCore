@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Domain.Interfaces;
 using ImaginariumCore.Contracts;
 using ImaginariumCore.Contracts.Input;
@@ -36,6 +35,13 @@ namespace ImaginariumCore.Controllers
         public UpdatedLobby UpdateLobby([FromBody] LobbyTokenValueObject lobbyToken)
         {
             return _contractMapper.ToUpdate(_lobbyManager.UpdateLobby(lobbyToken.LobbyToken));
+        }
+
+        [Route("card/set/main")]
+        [HttpPut]
+        public IActionResult SetCard([FromBody] CardTextToken cardTextToken)
+        {
+            return Ok();
         }
 
         [Route("all/get")]

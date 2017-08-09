@@ -6,6 +6,8 @@ namespace ImaginariumCore.Contracts.Output.Stages
     {
         public FourthStageData(ILobby lobby)
         {
+            Stage = lobby.Stage;
         }
+        public int Stage { get; set; }
     }
 }

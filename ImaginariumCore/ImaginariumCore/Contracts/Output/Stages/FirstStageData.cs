@@ -9,6 +9,7 @@ namespace ImaginariumCore.Contracts.Output.Stages
     {
         public FirstStageData(ILobby lobby , string playerToken)
         {
+            Stage = lobby.Stage;
             DonePlayers = new List<string>();
             var players = lobby.Players;
             Cards = players.SingleOrDefault(player => player.Token.Equals(playerToken)).Cards;
@@ -24,6 +25,7 @@ namespace ImaginariumCore.Contracts.Output.Stages
             AmountOfCards = lobby.AmountOfCards;
         }
 
+        public int Stage { get; set; }
         public IList<int> Cards { get; set; }
         public IList<Score> Scores { get; set; }
         public IList<string> DonePlayers { get; set; }
