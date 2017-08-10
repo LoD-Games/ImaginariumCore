@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using Domain.Interfaces;
 
 namespace Domain.Entities
@@ -14,6 +16,7 @@ namespace Domain.Entities
         public Lobby(int size, GameType type)
         {
             Size = size;
+            Text = String.Empty;
             GameType = type;
             Token = Guid.NewGuid();
             _players = new List<Player>(size);
@@ -53,9 +56,45 @@ namespace Domain.Entities
         public int AmountOfCards => _deck.AmountOfCards;
         public void SetCard(int card, string text, string playerToken)
         {
-            throw new NotImplementedException();
+            var mainPlayer = Players.SingleOrDefault(player => player.Token.Equals(playerToken));
+            if (!mainPlayer.Token.Equals(MainPlayer) 
+                || !mainPlayer.Cards.Contains(card)
+                || mainPlayer.Ready.Equals(true))
+            {
+                throw new HttpRequestException("invalid token of main player or this card was used or player doesn't have this card");
+            }
+            Text = text;
+            mainPlayer.Card = card;
+            mainPlayer.Cards.Remove(card);
+            mainPlayer.Ready = true;
         }
 
-        public string Text { get; }
+        public void SetCard(int card, string playerToken)
+        {
+            var currentPlayer = Players.SingleOrDefault(player => player.Token.Equals(playerToken));
+            if (!currentPlayer.Cards.Contains(card) 
+                || currentPlayer.Ready.Equals(true) 
+                || currentPlayer.Token.Equals(MainPlayer))
+            {
+                throw new HttpRequestException("player doesn't have this card or ready for next stage or it's main player");
+            }
+            switch (Stage)
+            {
+                case 2:
+                {
+                    currentPlayer.Card = card;
+                    currentPlayer.Cards.Remove(card);
+                    break;
+                }
+                case 3:
+                {
+                    currentPlayer.Vote = card;
+                    break;
+                }
+            }
+            currentPlayer.Ready = true;
+        }
+
+        public string Text { get; set; }
     }
 }

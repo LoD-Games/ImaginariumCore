@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,5 +39,54 @@ namespace DomainTests
             }
         }
 
+        [TestMethod]
+        public void SetTextFromUsualPlayer()
+        {
+            DeckSettings deckSettings = new DeckSettings();
+            ILobby lobby = new Lobby(4,GameType.Usual);
+            string[] tokens = {"1", "2", "3", "4"};
+            foreach (var token in tokens)
+            {
+                lobby.Add(token , token);
+            }
+            var createdPlayers = lobby.Players;
+            var mainPlayer = createdPlayers.SingleOrDefault(player => player.Token.Equals(lobby.MainPlayer));
+            var usualPlayer = createdPlayers[1];
+            try
+            {
+                lobby.SetCard(usualPlayer.Cards[0] , "this is fail" , usualPlayer.Token);
+            }
+            catch (Exception e)
+            {
+               
+            }
+            Assert.IsTrue(lobby.Text.Equals(String.Empty));
+        }
+
+        [TestMethod]
+        public void SetTextAndFakeCard()
+        {
+            var text = "this is fail";
+            DeckSettings deckSettings = new DeckSettings();
+            ILobby lobby = new Lobby(4, GameType.Usual);
+            string[] tokens = { "1", "2", "3", "4" };
+            foreach (var token in tokens)
+            {
+                lobby.Add(token, token);
+            }
+            var createdPlayers = lobby.Players;
+            var mainPlayer = createdPlayers.SingleOrDefault(player => player.Token.Equals(lobby.MainPlayer));
+            var usualPlayer = createdPlayers[1];
+            try
+            {
+                lobby.SetCard(usualPlayer.Cards[0],text , mainPlayer.Token);
+            }
+            catch (Exception e)
+            {
+                
+            }
+
+            Assert.IsTrue(!lobby.Text.Equals(text));
+        }
     }
 }

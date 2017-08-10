@@ -39,8 +39,18 @@ namespace ImaginariumCore.Controllers
 
         [Route("card/set/main")]
         [HttpPut]
-        public IActionResult SetCard([FromBody] CardTextToken cardTextToken)
+        public IActionResult SetCard([FromBody] CardTextTokens cardTextTokenses)
         {
+            _lobbyManager.SetCard(cardTextTokenses.Card,cardTextTokenses.Text,
+                cardTextTokenses.Tokens.PlayerToken ,cardTextTokenses.Tokens.LobbyToken);
+            return Ok();
+        }
+
+        [Route("card/set/usual")]
+        [HttpPut]
+        public IActionResult SetCard([FromBody] CardTokens cardTokens)
+        {
+            _lobbyManager.SetCard(cardTokens.Card,cardTokens.Tokens.PlayerToken,cardTokens.Tokens.LobbyToken);
             return Ok();
         }
 

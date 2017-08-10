@@ -48,9 +48,14 @@ namespace Domain.Entities
             return _lobbies.SingleOrDefault(lobby => lobby.Token.Equals(lobbyToken));
         }
 
-        public void SetCard(int card, string text, string playerToken, string lobbyToken)
+        public void SetCard(int card, string text, string playerToken, Guid lobbyToken)
         {
             _lobbies.SingleOrDefault(lobby => lobby.Token.Equals(lobbyToken)).SetCard(card,text,playerToken);
+        }
+
+        public void SetCard(int card, string playerToken, Guid lobbyToken)
+        {
+            _lobbies.SingleOrDefault(lobby => lobby.Token.Equals(lobbyToken)).SetCard(card , playerToken);
         }
     }
 }

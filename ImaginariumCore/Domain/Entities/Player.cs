@@ -10,7 +10,11 @@ namespace Domain.Entities
 
         public string NickName { get; }
 
-        public bool Ready { get; }
+        public bool Ready { get; set; }
+
+        public int Card { get; set; }
+
+        public int Vote { get; set; }
 
         public Player(string token, string nickName = "default")
         {
@@ -18,6 +22,9 @@ namespace Domain.Entities
             NickName = nickName;
             Cards = new List<int>();
             Ready = false;
+            Card = 0;
+            Vote = 0;
         }
+
     }
 }

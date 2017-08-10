@@ -11,6 +11,7 @@ namespace Domain.Interfaces
         IList<ILobby> GetAll();
         void ClearAll();
         ILobby GetLobby(Guid lobbyToken);
-        void SetCard(int card , string text , string playerToken,string lobbyToken);
+        void SetCard(int card , string text , string playerToken, Guid lobbyToken);
+        void SetCard(int card, string playerToken, Guid lobbyToken);
     }
 }
