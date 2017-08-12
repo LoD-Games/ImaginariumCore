@@ -19,6 +19,7 @@ namespace Domain.Interfaces
         void SetCard(int card, string text, string playerToken);
         void SetCard(int card, string playerToken);
         string Text { get; }
-        
+        void TryGoToNextStage();
+
     }
 }

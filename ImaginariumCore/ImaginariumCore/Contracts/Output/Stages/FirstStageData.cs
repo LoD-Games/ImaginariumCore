@@ -12,6 +12,11 @@ namespace ImaginariumCore.Contracts.Output.Stages
             Stage = lobby.Stage;
             DonePlayers = new List<string>();
             var players = lobby.Players;
+            var currentPlayer = players.SingleOrDefault(player => player.Token.Equals(playerToken));
+            if (!currentPlayer.Token.Equals(lobby.MainPlayer))
+            {
+                currentPlayer.Ready = true;
+            }
             Cards = players.SingleOrDefault(player => player.Token.Equals(playerToken)).Cards;
             Scores = lobby.Scores;
             foreach (var lobbyPlayer in lobby.Players)
@@ -23,6 +28,7 @@ namespace ImaginariumCore.Contracts.Output.Stages
             }
             MainPlayerToken = lobby.MainPlayer;
             AmountOfCards = lobby.AmountOfCards;
+            lobby.TryGoToNextStage();
         }
 
         public int Stage { get; set; }

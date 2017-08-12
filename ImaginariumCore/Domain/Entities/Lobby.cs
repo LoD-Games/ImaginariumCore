@@ -59,7 +59,8 @@ namespace Domain.Entities
             var mainPlayer = Players.SingleOrDefault(player => player.Token.Equals(playerToken));
             if (!mainPlayer.Token.Equals(MainPlayer) 
                 || !mainPlayer.Cards.Contains(card)
-                || mainPlayer.Ready.Equals(true))
+                || mainPlayer.Ready.Equals(true)
+                || !Stage.Equals(1))
             {
                 throw new HttpRequestException("invalid token of main player or this card was used or player doesn't have this card");
             }
@@ -96,5 +97,61 @@ namespace Domain.Entities
         }
 
         public string Text { get; set; }
+        public void TryGoToNextStage()
+        {
+            if (Players.All(player => player.Ready))
+            {
+                Stage += 1;
+                if (Stage>4)
+                {
+                    Stage = 1;
+                    AddCardsToPlayers();
+                    NewGame();
+                    if (Players.All(player => player.Cards.Count.Equals(0)))
+                    {
+                        Stage = 0;
+                    }
+                }
+                foreach (var player in Players)
+                {
+                    player.Ready = false;
+                }
+                if (Stage.Equals(2) || Stage.Equals(3))
+                {
+                    Players.SingleOrDefault(player => player.Token.Equals(MainPlayer)).Ready = true;
+                }
+
+            }
+        }
+
+        private void AddCardsToPlayers()
+        {
+            if (_deck.HasCards)
+            {
+                foreach (var player in Players)
+                {
+                    player.Cards.Add(_deck.GetCard());
+                }
+            }
+        }
+
+        private void NewGame()
+        {
+            SetScore();
+            _mainPlayer += 1;
+            if (_mainPlayer.Equals(Players.Count))
+            {
+                _mainPlayer = 0;
+            }
+            foreach (var player in Players)
+            {
+                player.Card = player.Vote = 0;
+            }
+        }
+
+        private void SetScore()
+        {
+            
+        }
     }
 }

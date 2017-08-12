@@ -29,5 +29,6 @@ namespace Domain.Entities
         private Random _random;
 
         public int AmountOfCards => CardDeck.Count;
+        public bool HasCards => CardDeck.Count > 0;
     }
 }
