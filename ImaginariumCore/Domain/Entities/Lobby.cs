@@ -68,12 +68,13 @@ namespace Domain.Entities
             mainPlayer.Card = card;
             mainPlayer.Cards.Remove(card);
             mainPlayer.Ready = true;
+            TryGoToNextStage();
         }
 
         public void SetCard(int card, string playerToken)
         {
             var currentPlayer = Players.SingleOrDefault(player => player.Token.Equals(playerToken));
-            if (!currentPlayer.Cards.Contains(card) 
+            if (!currentPlayer.Cards.Contains(card) && Stage.Equals(2)
                 || currentPlayer.Ready.Equals(true) 
                 || currentPlayer.Token.Equals(MainPlayer))
             {
@@ -94,6 +95,7 @@ namespace Domain.Entities
                 }
             }
             currentPlayer.Ready = true;
+            TryGoToNextStage();
         }
 
         public string Text { get; set; }
