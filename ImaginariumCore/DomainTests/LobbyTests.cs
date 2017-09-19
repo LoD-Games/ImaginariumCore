@@ -57,7 +57,7 @@ namespace DomainTests
             {
                 lobby.SetCard(usualPlayer.Cards[0] , "this is fail" , usualPlayer.Token);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                
             }
@@ -82,7 +82,7 @@ namespace DomainTests
             {
                 lobby.SetCard(usualPlayer.Cards[0],text , mainPlayer.Token);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 
             }
@@ -153,7 +153,7 @@ namespace DomainTests
             {
                 lobby.SetCard(usualPlayer.Cards[0] , mainPlayer.Token);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 
             }
@@ -177,7 +177,7 @@ namespace DomainTests
             {
                 lobby.SetCard(firstPlayer.Cards[0] , secondPlayer.Token);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             Assert.IsTrue(firstPlayer.Cards.Count.Equals(6) && firstPlayer.Card.Equals(0) && firstPlayer.Ready.Equals(false));
@@ -200,7 +200,7 @@ namespace DomainTests
             {
                 lobby.SetCard(firstPlayer.Cards[0], firstPlayer.Token);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             Assert.IsTrue(firstPlayer.Card.Equals(0) && firstPlayer.Cards.Count.Equals(6));
@@ -233,5 +233,65 @@ namespace DomainTests
                 !secondPlayer.Cards.Contains(secondPlayer.Card) &&
                 secondPlayer.Cards.Count.Equals(5));
         }
+
+        [TestMethod]
+        public void AllPlayersCanSetCardAndLobbyStafeIs3()
+        {
+            DeckSettings deckSettings = new DeckSettings();
+            var contractMapper = new ContractMapper();
+            ILobby lobby = new Lobby(4, GameType.Usual);
+            string[] tokens = { "1", "2", "3", "4" };
+            foreach (var token in tokens)
+            {
+                lobby.Add(token, token);
+            }
+            var createdPlayers = lobby.Players;
+            var secondPlayer = createdPlayers[1];
+            var thirdPlayer = createdPlayers[2];
+            var fourthPlayer = createdPlayers[3];
+            var mainPlayer = createdPlayers.SingleOrDefault(player => player.Token.Equals(lobby.MainPlayer));
+            lobby.SetCard(mainPlayer.Cards[0], "ok", mainPlayer.Token);
+            foreach (var createdPlayer in createdPlayers)
+            {
+                contractMapper.MapToStageData(createdPlayer.Token, lobby);
+            }
+            lobby.SetCard(secondPlayer.Cards[0],secondPlayer.Token);
+            lobby.SetCard(thirdPlayer.Cards[0],thirdPlayer.Token);
+            lobby.SetCard(fourthPlayer.Cards[0],fourthPlayer.Token);
+            Assert.IsTrue(lobby.Stage.Equals(3));
+        }
+
+        [TestMethod]
+        public void AllPlayersCanVoteAndStageEquals4()
+        {
+            DeckSettings deckSettings = new DeckSettings();
+            var contractMapper = new ContractMapper();
+            ILobby lobby = new Lobby(4, GameType.Usual);
+            string[] tokens = { "1", "2", "3", "4" };
+            foreach (var token in tokens)
+            {
+                lobby.Add(token, token);
+            }
+            var createdPlayers = lobby.Players;
+            var secondPlayer = createdPlayers[1];
+            var thirdPlayer = createdPlayers[2];
+            var fourthPlayer = createdPlayers[3];
+            var mainPlayer = createdPlayers.SingleOrDefault(player => player.Token.Equals(lobby.MainPlayer));
+            lobby.SetCard(mainPlayer.Cards[0], "ok", mainPlayer.Token);
+            foreach (var createdPlayer in createdPlayers)
+            {
+                contractMapper.MapToStageData(createdPlayer.Token, lobby);
+            }
+            lobby.SetCard(secondPlayer.Cards[0], secondPlayer.Token);
+            lobby.SetCard(thirdPlayer.Cards[0], thirdPlayer.Token);
+            lobby.SetCard(fourthPlayer.Cards[0], fourthPlayer.Token);
+            lobby.SetCard(lobby.Players[0].Card, secondPlayer.Token);
+            lobby.SetCard(lobby.Players[1].Card, thirdPlayer.Token);
+            lobby.SetCard(lobby.Players[2].Card, fourthPlayer.Token);
+            Assert.IsTrue(lobby.Stage.Equals(4));
+
+        }
+
+
     }
 }

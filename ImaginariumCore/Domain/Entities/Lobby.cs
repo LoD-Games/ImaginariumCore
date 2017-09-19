@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Domain.Interfaces;
 
 namespace Domain.Entities
@@ -12,6 +13,21 @@ namespace Domain.Entities
         private Deck _deck;
         private int _mainPlayer;
         private IList<Score> _scores;
+        private IList<VoteResult> _votes;
+
+        private void CalculatePoints()
+        {
+            foreach (var player in _players)
+            {
+                _votes.Add(new VoteResult(player.Card , _players.Count(entity => entity.Vote.Equals(player.Card))));
+            }
+
+            foreach (var score in _scores)
+            {
+                score.CalcuteScore(this);
+            }
+
+        }
 
         public Lobby(int size, GameType type)
         {
@@ -24,6 +40,7 @@ namespace Domain.Entities
             Stage = 0;
             _mainPlayer = 0;
             _scores = new List<Score>(size);
+            _votes = new List<VoteResult>();
         }
 
         public void Add(string playerToken, string nickName)
@@ -99,7 +116,7 @@ namespace Domain.Entities
         }
 
         public string Text { get; set; }
-        public void TryGoToNextStage()
+        public async Task TryGoToNextStage()
         {
             if (Players.All(player => player.Ready))
             {
@@ -123,8 +140,15 @@ namespace Domain.Entities
                     Players.SingleOrDefault(player => player.Token.Equals(MainPlayer)).Ready = true;
                 }
 
+                if (Stage.Equals(4))
+                {
+                    await Task.Run(() => CalculatePoints());
+                }
+
             }
         }
+
+        public IList<VoteResult> VoteResults => _votes;
 
         private void AddCardsToPlayers()
         {

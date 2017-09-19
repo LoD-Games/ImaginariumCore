@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Domain.Interfaces
@@ -19,7 +20,8 @@ namespace Domain.Interfaces
         void SetCard(int card, string text, string playerToken);
         void SetCard(int card, string playerToken);
         string Text { get; }
-        void TryGoToNextStage();
+        Task TryGoToNextStage();
+        IList<VoteResult> VoteResults { get; }
 
     }
 }
