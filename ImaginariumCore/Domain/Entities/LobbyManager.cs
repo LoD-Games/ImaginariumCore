@@ -18,7 +18,15 @@ namespace Domain.Entities
 
         public Guid AddPlayer(string playerToken, GameType type, int size , string nickName = "default")
         {
-            var freeLobby = _lobbies.SingleOrDefault(lobby => lobby.GameType == type && lobby.Size == size && lobby.HasPlaces);
+            var currentLobby =
+                _lobbies.SingleOrDefault(lobby => lobby.Players
+                .Any(player => player.Token.Equals(playerToken)));
+            if (!(currentLobby is null))
+            {
+                return currentLobby.Token;
+            }
+            var freeLobby = _lobbies.
+                SingleOrDefault(lobby => lobby.GameType == type && lobby.Size == size && lobby.HasPlaces);
             if (freeLobby is null)
             {
                 freeLobby = new Lobby(size,type);

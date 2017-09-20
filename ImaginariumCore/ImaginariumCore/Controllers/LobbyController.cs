@@ -76,6 +76,13 @@ namespace ImaginariumCore.Controllers
             return _contractMapper.MapToStageData(tokens.PlayerToken,_lobbyManager.GetLobby(tokens.LobbyToken));
         }
 
+        [Route("leave")]
+        [HttpDelete]
+        public IActionResult ExitFromLobby([FromBody] Tokens tokens)
+        {
+            return Ok();
+        }
+
 
     }
 }
