@@ -11,20 +11,19 @@ namespace ImaginariumCore.Contracts.Output.Stages
         {
             Stage = lobby.Stage;
             var players = lobby.Players;
+            var currentPlayer = players.SingleOrDefault(player => player.Token.Equals(playerToken));
+            currentPlayer.Ready = true;
             MainCard = lobby.Players.SingleOrDefault(player => player.Token.Equals(lobby.MainPlayer)).Card;
             DonePlayers = new List<string>();
-            VoteResult = new List<VoteResult>();
+            VoteResult = lobby.VoteResults;
             foreach (var player in players)
             {
                 if (player.Ready)
                 {
                     DonePlayers.Add(player.Token);
-                    VoteResult.Add(new VoteResult(player.Card , players.Count(entity => entity.Vote.Equals(player.Card))));
                 }
             }
-            var currentPlayer = players.SingleOrDefault(player => player.Token.Equals(playerToken));
-            currentPlayer.Ready = true;
-            lobby.TryGoToNextStage();
+            lobby.TryGoToNextStageAsync();
         }
         public int Stage { get; set; }
         public IList<VoteResult> VoteResult { get; set; }

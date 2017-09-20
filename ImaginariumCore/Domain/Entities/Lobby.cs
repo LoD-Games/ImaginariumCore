@@ -85,7 +85,7 @@ namespace Domain.Entities
             mainPlayer.Card = card;
             mainPlayer.Cards.Remove(card);
             mainPlayer.Ready = true;
-            TryGoToNextStage();
+            TryGoToNextStageAsync();
         }
 
         public void SetCard(int card, string playerToken)
@@ -112,11 +112,11 @@ namespace Domain.Entities
                 }
             }
             currentPlayer.Ready = true;
-            TryGoToNextStage();
+            TryGoToNextStageAsync();
         }
 
         public string Text { get; set; }
-        public async Task TryGoToNextStage()
+        public async Task TryGoToNextStageAsync()
         {
             if (Players.All(player => player.Ready))
             {

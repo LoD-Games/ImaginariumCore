@@ -20,7 +20,7 @@ namespace Domain.Interfaces
         void SetCard(int card, string text, string playerToken);
         void SetCard(int card, string playerToken);
         string Text { get; }
-        Task TryGoToNextStage();
+        Task TryGoToNextStageAsync();
         IList<VoteResult> VoteResults { get; }
 
     }

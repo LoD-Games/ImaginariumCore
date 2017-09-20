@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using Domain.Entities;
 using Domain.Interfaces;
 using ImaginariumCore.Contracts;
@@ -289,6 +290,135 @@ namespace DomainTests
             lobby.SetCard(lobby.Players[1].Card, thirdPlayer.Token);
             lobby.SetCard(lobby.Players[2].Card, fourthPlayer.Token);
             Assert.IsTrue(lobby.Stage.Equals(4));
+
+        }
+
+        [TestMethod]
+        public void VoteResultTest()
+        {
+            DeckSettings deckSettings = new DeckSettings();
+            var contractMapper = new ContractMapper();
+            ILobby lobby = new Lobby(4, GameType.Usual);
+            string[] tokens = { "1", "2", "3", "4" };
+            foreach (var token in tokens)
+            {
+                lobby.Add(token, token);
+            }
+            var createdPlayers = lobby.Players;
+            var secondPlayer = createdPlayers[1];
+            var thirdPlayer = createdPlayers[2];
+            var fourthPlayer = createdPlayers[3];
+            var mainPlayer = createdPlayers.SingleOrDefault(player => player.Token.Equals(lobby.MainPlayer));
+            lobby.SetCard(mainPlayer.Cards[0], "ok", mainPlayer.Token);
+            foreach (var createdPlayer in createdPlayers)
+            {
+                contractMapper.MapToStageData(createdPlayer.Token, lobby);
+            }
+            lobby.SetCard(secondPlayer.Cards[0], secondPlayer.Token);
+            lobby.SetCard(thirdPlayer.Cards[0], thirdPlayer.Token);
+            lobby.SetCard(fourthPlayer.Cards[0], fourthPlayer.Token);
+            lobby.SetCard(lobby.Players[0].Card, secondPlayer.Token);
+            lobby.SetCard(lobby.Players[1].Card, thirdPlayer.Token);
+            lobby.SetCard(lobby.Players[2].Card, fourthPlayer.Token);
+            Assert.IsTrue(lobby.VoteResults.Where(result => result.Count.Equals(1)).Count().Equals(3));
+        }
+
+        [TestMethod]
+        public void CalculateScoreTest()
+        {
+            DeckSettings deckSettings = new DeckSettings();
+            var contractMapper = new ContractMapper();
+            ILobby lobby = new Lobby(4, GameType.Usual);
+            string[] tokens = { "1", "2", "3", "4" };
+            foreach (var token in tokens)
+            {
+                lobby.Add(token, token);
+            }
+            var createdPlayers = lobby.Players;
+            var secondPlayer = createdPlayers[1];
+            var thirdPlayer = createdPlayers[2];
+            var fourthPlayer = createdPlayers[3];
+            var mainPlayer = createdPlayers.SingleOrDefault(player => player.Token.Equals(lobby.MainPlayer));
+            lobby.SetCard(mainPlayer.Cards[0], "ok", mainPlayer.Token);
+            foreach (var createdPlayer in createdPlayers)
+            {
+                contractMapper.MapToStageData(createdPlayer.Token, lobby);
+            }
+            lobby.SetCard(secondPlayer.Cards[0], secondPlayer.Token);
+            lobby.SetCard(thirdPlayer.Cards[0], thirdPlayer.Token);
+            lobby.SetCard(fourthPlayer.Cards[0], fourthPlayer.Token);
+            lobby.SetCard(lobby.Players[0].Card, secondPlayer.Token);
+            lobby.SetCard(lobby.Players[1].Card, thirdPlayer.Token);
+            lobby.SetCard(lobby.Players[2].Card, fourthPlayer.Token);
+            Assert.IsTrue(lobby.Scores
+                .SingleOrDefault(score => score.Token.Equals(lobby.MainPlayer))
+                .Points.Equals(1)
+                && lobby.Scores.Any(score => score.Points.Equals(0)));
+        }
+
+        [TestMethod]
+        public void CalculatePointsWhenAllPlayersDontChooseMainCard()
+        {
+
+            DeckSettings deckSettings = new DeckSettings();
+            var contractMapper = new ContractMapper();
+            ILobby lobby = new Lobby(4, GameType.Usual);
+            string[] tokens = { "1", "2", "3", "4" };
+            foreach (var token in tokens)
+            {
+                lobby.Add(token, token);
+            }
+            var createdPlayers = lobby.Players;
+            var secondPlayer = createdPlayers[1];
+            var thirdPlayer = createdPlayers[2];
+            var fourthPlayer = createdPlayers[3];
+            var mainPlayer = createdPlayers.SingleOrDefault(player => player.Token.Equals(lobby.MainPlayer));
+            lobby.SetCard(mainPlayer.Cards[0], "ok", mainPlayer.Token);
+            foreach (var createdPlayer in createdPlayers)
+            {
+                contractMapper.MapToStageData(createdPlayer.Token, lobby);
+            }
+            lobby.SetCard(secondPlayer.Cards[0], secondPlayer.Token);
+            lobby.SetCard(thirdPlayer.Cards[0], thirdPlayer.Token);
+            lobby.SetCard(fourthPlayer.Cards[0], fourthPlayer.Token);
+            lobby.SetCard(lobby.Players[1].Card, secondPlayer.Token);
+            lobby.SetCard(lobby.Players[1].Card, thirdPlayer.Token);
+            lobby.SetCard(lobby.Players[1].Card, fourthPlayer.Token);
+            Thread.Sleep(1000);
+            Assert.IsTrue(lobby.Scores.Count(score => score.Points.Equals(3)).Equals(1)
+            && lobby.Scores.SingleOrDefault(entity => entity.Token.Equals(lobby.MainPlayer)).Points.Equals(0));
+
+        }
+
+        [TestMethod]
+        public void CalculatePointsWhenAllPlayersChooseMainCard()
+        {
+            DeckSettings deckSettings = new DeckSettings();
+            var contractMapper = new ContractMapper();
+            ILobby lobby = new Lobby(4, GameType.Usual);
+            string[] tokens = { "1", "2", "3", "4" };
+            foreach (var token in tokens)
+            {
+                lobby.Add(token, token);
+            }
+            var createdPlayers = lobby.Players;
+            var secondPlayer = createdPlayers[1];
+            var thirdPlayer = createdPlayers[2];
+            var fourthPlayer = createdPlayers[3];
+            var mainPlayer = createdPlayers.SingleOrDefault(player => player.Token.Equals(lobby.MainPlayer));
+            lobby.SetCard(mainPlayer.Cards[0], "ok", mainPlayer.Token);
+            foreach (var createdPlayer in createdPlayers)
+            {
+                contractMapper.MapToStageData(createdPlayer.Token, lobby);
+            }
+            lobby.SetCard(secondPlayer.Cards[0], secondPlayer.Token);
+            lobby.SetCard(thirdPlayer.Cards[0], thirdPlayer.Token);
+            lobby.SetCard(fourthPlayer.Cards[0], fourthPlayer.Token);
+            lobby.SetCard(lobby.Players[0].Card, secondPlayer.Token);
+            lobby.SetCard(lobby.Players[0].Card, thirdPlayer.Token);
+            lobby.SetCard(lobby.Players[0].Card, fourthPlayer.Token);
+            Thread.Sleep(1000);
+            Assert.IsTrue(lobby.Scores.All(score => score.Points.Equals(0)));
 
         }
 

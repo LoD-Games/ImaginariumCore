@@ -28,7 +28,7 @@ namespace ImaginariumCore.Contracts.Output.Stages
             }
             MainPlayerToken = lobby.MainPlayer;
             AmountOfCards = lobby.AmountOfCards;
-            lobby.TryGoToNextStage();
+            lobby.TryGoToNextStageAsync();
         }
 
         public int Stage { get; set; }

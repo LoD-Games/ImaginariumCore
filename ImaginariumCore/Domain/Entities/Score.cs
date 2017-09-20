@@ -31,7 +31,7 @@ namespace Domain.Entities
                     Points -= 3;
                     canCalculate = false;
                 }
-                if (votes < 0 )
+                if (Points < 0 )
                 {
                     Points = 0;
                 }
